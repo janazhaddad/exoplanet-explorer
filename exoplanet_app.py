@@ -71,6 +71,27 @@ st.markdown(
     h1 {
         text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
     }
+    
+    /* Style tables - first row light pink */
+    .stTable thead tr th:first-child {
+        background-color: #ffb6c1 !important;
+        color: black !important;
+        font-weight: bold;
+    }
+    
+    /* Style model comparison table headers */
+    .model-table thead tr th {
+        background-color: #ffb6c1 !important;
+        color: black !important;
+        font-weight: bold;
+    }
+    
+    /* Style data table headers */
+    .data-table thead tr th {
+        background-color: #ffb6c1 !important;
+        color: black !important;
+        font-weight: bold;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -263,7 +284,25 @@ def show_model_comparison():
     }
     
     comparison_df = pd.DataFrame(comparison_data)
+    
+    # Apply custom styling to the table
+    st.markdown(
+        """
+        <style>
+        .model-comparison-table thead tr th {
+            background-color: #ffb6c1 !important;
+            color: black !important;
+            font-weight: bold;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Display the table with custom CSS class
+    st.markdown('<div class="model-comparison-table">', unsafe_allow_html=True)
     st.table(comparison_df)
+    st.markdown('</div>', unsafe_allow_html=True)
     
     # Visual comparison
     st.subheader("📈 Model Performance Visualization")
@@ -624,7 +663,21 @@ if not kepler_df.empty and not k2_df.empty and not tess_df.empty:
         # Let people choose how many rows to see
         num_rows = st.slider("Number of planets to show:", 5, 100, 10)
         
-        # Show the data
+        # Show the data with custom styling for headers
+        st.markdown(
+            """
+            <style>
+            .dataframe thead tr th {
+                background-color: #ffb6c1 !important;
+                color: black !important;
+                font-weight: bold;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        # Display the dataframe
         st.dataframe(filtered_df.head(num_rows))
         
         # Add download button
